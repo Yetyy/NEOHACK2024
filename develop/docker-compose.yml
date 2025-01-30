@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+
+  dbservice:
+    build:
+      context: .
+      dockerfile: dbService/Dockerfile
+    env_file:
+      - .env
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+
+  apiservice:
+    build:
+      context: .
+      dockerfile: apiService/Dockerfile
+    env_file:
+      - .env
+    environment:
+      TELEGRAM_BOT_NAME: ${TELEGRAM_BOT_NAME:-NEOHACK_bot}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+    ports:
+      - "8082:8082"
+    depends_on:
+      - dbservice

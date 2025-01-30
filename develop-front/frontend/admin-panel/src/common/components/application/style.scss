@@ -1,0 +1,43 @@
+@use "@/common/styles/mixin.scss" as *;
+@use "@/common/styles/styleConstants" as *;
+
+.application {
+    width: 100%;
+
+    &__title {
+        @include clampText($text-m-title, $text-title);
+        color: $color-dim-black;
+        margin-bottom: 20px;
+    }
+
+    &__wrapper {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 300px auto;
+        gap: 30px;
+    }
+
+    &__content {
+        @include defaultBox;
+        height: fit-content;
+    }
+}
+@media (max-width: $desktop) {
+    .application {
+        &__content {
+            width: calc(100vw - 380px);
+        }
+    }
+}
+
+@media (max-width: $tablet) {
+    .application {
+        &__wrapper{
+            display: block;
+        }
+
+        &__content {
+            width: 100%;
+        }
+    }
+}

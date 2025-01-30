@@ -1,0 +1,49 @@
+CREATE OR REPLACE PROCEDURE calculate_application_count_by_status()
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    status_record RECORD;
+BEGIN
+    -- Выводим заголовок
+    RAISE NOTICE 'Status       | Application Count';
+    RAISE NOTICE '-------------|------------------';
+
+    -- Перебираем статусы и считаем количество заявок
+    FOR status_record IN
+        SELECT status, COUNT(id) AS application_count
+        FROM applications
+        GROUP BY status
+        ORDER BY application_count DESC
+    LOOP
+        -- Выводим результат для каждого статуса
+        RAISE NOTICE '% | %', status_record.status, status_record.application_count;
+    END LOOP;
+END;
+$$;
+
+CALL calculate_application_count_by_status();
+
+CREATE OR REPLACE PROCEDURE calculate_application_count_by_status()
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    status_record RECORD;
+BEGIN
+    -- Выводим заголовок
+    RAISE NOTICE 'Status       | Application Count';
+    RAISE NOTICE '-------------|------------------';
+
+    -- Перебираем статусы и считаем количество заявок
+    FOR status_record IN
+        SELECT status, COUNT(id) AS application_count
+        FROM applications
+        GROUP BY status
+        ORDER BY application_count DESC
+    LOOP
+        -- Выводим результат для каждого статуса
+        RAISE NOTICE '% | %', status_record.status, status_record.application_count;
+    END LOOP;
+END;
+$$;
+
+CALL calculate_application_count_by_status();

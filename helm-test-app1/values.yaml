@@ -1,0 +1,54 @@
+replicaCount: 3
+
+image:
+  repository: "{{ .Values.image.repository }}"
+  pullPolicy: IfNotPresent
+  tag: "{{ .Values.image.tag }}"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: NodePort
+  port: 8080         
+  targetPort: 8080    
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: hackoronezh.nh2025.codenrock.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: hackoronezh-tls-secret
+      hosts:
+        - hackoronezh.nh2025.codenrock.com
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

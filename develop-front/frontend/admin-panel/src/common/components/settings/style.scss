@@ -1,0 +1,71 @@
+@use "@/common/styles/mixin.scss" as *;
+@use "@/common/styles/styleConstants" as *;
+
+.setting-activity {
+    @include defaultBox;
+
+    &__title {
+        @include clampText($text-m-title, $text-title);
+        color: $color-dim-black;
+        margin-bottom: 20px;
+    }
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    &__description {
+        @include clampText($text-m-large, $text-large);
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    &__input {
+        width: 200px;
+    }
+
+    &__button {
+        margin-top: 10px;
+        @include styledbutton;
+    }
+
+    &__inputs-wrap{
+        display: flex;
+        gap: 20px;
+    }
+}
+
+@media (max-width: $tablet) {
+    .setting-activity {
+        &__content {
+            flex-direction: column;
+        }
+    }
+}
+
+@media (max-width: $mobile) {
+    .setting-activity {
+        &__inputs-wrap{
+            flex-direction: column;
+            gap: 0px;
+        }
+
+        &__title {
+            text-align: center;
+        }
+
+        &__description {
+            text-align: center;
+        }
+
+        &__input {
+            width: 100%;
+        }
+
+        &__button {
+            margin-inline: auto;
+        }
+    }
+}

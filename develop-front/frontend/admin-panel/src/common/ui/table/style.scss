@@ -1,0 +1,74 @@
+@use "@/common/styles/mixin.scss" as *;
+@use "@/common/styles/styleConstants" as *;
+
+.table {
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+
+    &__wrapper {
+        width: 100%;
+        overflow: auto;
+    }
+
+    & th,
+    & td {
+        padding-block: 14px;
+        padding-left: 5px;
+        border: none;
+        border-bottom: 1px solid $color-border;
+    }
+
+    & th {
+        text-align: left;
+        margin-right: 100px;
+    }
+
+    & td {
+        @include clampText($text-m-main, $text-main);
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        color: $color-dark-label;
+        max-width: 250px;
+        min-width: 150px;
+        overflow-wrap: break-word;
+        word-break: normal;
+
+        &:first-child {
+            max-width: 120px;
+            min-width: 100px;
+        }
+    }
+
+    &__content-row {
+        cursor: pointer;
+
+        @media(hover: hover) {
+            &:hover {
+                background-color: $color-soft-white;
+            }
+        }
+    }
+
+    &__button {
+        @include clampText($text-m-main, $text-main);
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: 0.02em;
+        text-align: left;
+        color: $color-grey-th;
+        text-transform: uppercase;
+        justify-content: start;
+        align-items: center;
+        background: transparent;
+    }
+
+    &__icon{
+        transition: $transition-fast;
+        rotate: 0deg;
+        margin-bottom: 2px;
+        &_active {
+            rotate: 180deg;
+        }
+    }
+}

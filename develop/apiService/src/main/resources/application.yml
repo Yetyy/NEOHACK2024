@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: apiService
+server:
+  port: 8082
+logging:
+  level:
+    root: info
+    bot.neoflex: debug
+db:
+  service:
+    url: http://dbservice:8081
+telegram:
+  bot:
+    name: ${TELEGRAM_BOT_NAME}
+    token: ${TELEGRAM_BOT_TOKEN}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui

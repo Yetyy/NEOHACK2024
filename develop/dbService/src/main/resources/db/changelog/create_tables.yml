@@ -1,0 +1,289 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: yetyy
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: email
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: telegram_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    unique: true
+              - column:
+                  name: chat_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    unique: true
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: yetyy
+      changes:
+        - createTable:
+            tableName: admin_users
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password_hash
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: role
+                  type: varchar
+                  constraints:
+                    nullable: false
+                  defaultValue: 'admin'
+  - changeSet:
+      id: 3
+      author: yetyy
+      changes:
+        - createTable:
+            tableName: applications
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: direction_id
+                  type: int
+              - column:
+                  name: type
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: submission_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 4
+      author: yetyy
+      changes:
+        - createTable:
+            tableName: button_activity
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: button_type
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: date
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 5
+      author: yetyy
+      changes:
+        - createTable:
+            tableName: directions
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: true
+  - changeSet:
+      id: 6
+      author: yetyy
+      changes:
+        - createTable:
+            tableName: events
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: event_type
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: details
+                  type: json
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 7
+      author: yetyy
+      changes:
+        - createTable:
+            tableName: message_templates
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: message_type
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: message_content
+                  type: text
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 8
+      author: yetyy
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: applications
+            baseColumnNames: user_id
+            constraintName: applications_fk1
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE
+  - changeSet:
+      id: 9
+      author: yetyy
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: applications
+            baseColumnNames: direction_id
+            constraintName: applications_fk2
+            referencedTableName: directions
+            referencedColumnNames: id
+            onDelete: SET NULL
+  - changeSet:
+      id: 10
+      author: yetyy
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: events
+            baseColumnNames: user_id
+            constraintName: events_fk1
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE

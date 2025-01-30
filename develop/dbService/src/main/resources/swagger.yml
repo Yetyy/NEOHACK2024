@@ -1,0 +1,860 @@
+openapi: 3.0.0
+info:
+  title: Database API
+  version: 1.0.0
+paths:
+  /users:
+    post:
+      summary: 'Создание нового пользователя'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+      responses:
+        '201':
+          description: 'Пользователь создан'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: 'Передан некорректный запрос'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+    get:
+      summary: 'Получение всех пользователей'
+      responses:
+        '200':
+          description: 'Список всех пользователей'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+    put:
+      summary: 'Обновление пользователя'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: 'Обновление выполнено'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: 'Передан некорректный запрос'
+        '404':
+          description: 'Пользователь не найден'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+
+  /users/email/{email}:
+    get:
+      summary: 'Получить email пользователя'
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+          description: 'Запрос на получение email пользователя'
+      responses:
+        '200':
+          description: 'Успешно'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: 'Пользователь не найден'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /users/phone/{phoneNumber}:
+    get:
+      summary: 'Получить номер телефона пользователя'
+      parameters:
+        - in: path
+          name: phoneNumber
+          required: true
+          schema:
+            type: string
+          description: 'Запрос на получение номера телефона пользователя'
+      responses:
+        '200':
+          description: 'Успешно'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: 'Пользователь не найден'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /directions:
+    post:
+      summary: 'Создание нового направления обучения'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewDirection'
+      responses:
+        '201':
+          description: 'Направление создано'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Direction'
+        '400':
+          description: 'Передан некорректный запрос'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+    get:
+      summary: 'Получение всех направлений обучения'
+      responses:
+        '200':
+          description: 'Получение списка всех направлений'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Direction'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /directions/{id}:
+    get:
+      summary: 'ID направления'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: 'Получение направления по ID'
+      responses:
+        '200':
+          description: 'Ответ с названием направления'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Direction'
+        '404':
+          description: 'Направление не найдено'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /applications:
+    post:
+      summary: 'Создание новой заявки'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewApplication'
+      responses:
+        '201':
+          description: 'Заявка создана'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '400':
+          description: 'Передан некорректный запрос'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+    get:
+      summary: 'Получение всех заявок'
+      responses:
+        '200':
+          description: 'Список всех заявок'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /applications/{id}:
+    get:
+      summary: 'Получение заявки по ID'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: 'ID заявки'
+      responses:
+        '200':
+          description: 'Заявка найдена'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '404':
+          description: 'Заявка не найдена'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+    put:
+      summary: 'Обновление заявки'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: 'ID заявки для обновления'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationUpdate'
+      responses:
+        '200':
+          description: 'Заявка обновлена'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '400':
+          description: 'Передан некорректный запрос'
+        '404':
+          description: 'Заявка не найдена'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /message-templates:
+    post:
+      summary: 'Создание нового шаблона сообщения'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMessageTemplate'
+      responses:
+        '201':
+          description: 'Шаблон сообщения создан'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageTemplate'
+        '400':
+          description: 'Передан некорректный запрос'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+    put:
+      summary: 'Обновление шаблона сообщения'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageTemplateUpdate'
+      responses:
+        '200':
+          description: 'Шаблон сообщения обновлен'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageTemplate'
+        '400':
+          description: 'Передан некорректный запрос'
+        '404':
+          description: 'Шаблон сообщения не найден'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /message-templates/{messageType}:
+    get:
+      summary: 'Получение шаблона сообщения по типу'
+      parameters:
+        - in: path
+          name: messageType
+          required: true
+          schema:
+            type: string
+          description: 'Тип сообщения'
+      responses:
+        '200':
+          description: 'Шаблон сообщения найден'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageTemplate'
+        '404':
+          description: 'Шаблон сообщения не найден'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /button-activities:
+    post:
+      summary: 'Создание новой активности кнопки'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewButtonActivity'
+      responses:
+        '201':
+          description: 'Активность кнопки создана'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ButtonActivity'
+        '400':
+          description: 'Передан некорректный запрос'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+    put:
+      summary: 'Обновление активности кнопки'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ButtonActivityUpdate'
+      responses:
+        '200':
+          description: 'Активность кнопки обновлена'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ButtonActivity'
+        '400':
+          description: 'Передан некорректный запрос'
+        '404':
+          description: 'Активность кнопки не найдена'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /button-activities/{buttonType}:
+    get:
+      summary: 'Получение активности кнопки по типу'
+      parameters:
+        - in: path
+          name: buttonType
+          required: true
+          schema:
+            type: string
+          description: 'Тип кнопки'
+      responses:
+        '200':
+          description: 'Активность кнопки найдена'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ButtonActivity'
+        '404':
+          description: 'Активность кнопки не найдена'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /events:
+    post:
+      summary: 'Создание нового события'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewEvent'
+      responses:
+        '201':
+          description: 'Событие создано'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: 'Передан некорректный запрос'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+    get:
+      summary: 'Получение всех событий'
+      responses:
+        '200':
+          description: 'Список всех событий'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /admin-users:
+    post:
+      summary: 'Создание нового администратора'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewAdminUser'
+      responses:
+        '201':
+          description: 'Администратор создан'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUser'
+        '400':
+          description: 'Передан некорректный запрос'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+    put:
+      summary: 'Обновление администратора'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUserUpdate'
+      responses:
+        '200':
+          description: 'Администратор обновлен'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUser'
+        '400':
+          description: 'Передан некорректный запрос'
+        '404':
+          description: 'Администратор не найден'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+  /admin-users/{username}:
+    get:
+      summary: 'Получение администратора по имени пользователя'
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+          description: 'Имя пользователя администратора'
+      responses:
+        '200':
+          description: 'Администратор найден'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminUser'
+        '404':
+          description: 'Администратор не найден'
+        '500':
+          description: 'Внутренняя ошибка сервера'
+
+###КОМПОНЕНТЫ
+components:
+  schemas:
+    NewUser:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - city
+        - phoneNumber
+        - email
+        - role
+      properties:
+        firstName:
+          type: string
+          description: 'Имя пользователя'
+        lastName:
+          type: string
+          description: 'Фамилия пользователя'
+        city:
+          type: string
+          description: 'Город'
+        phoneNumber:
+          type: string
+          description: 'Номер телефона пользователя'
+          example:
+            phoneNumber: "+71234567890"
+        email:
+          type: string
+          description: 'Email пользователя'
+        role:
+          type: string
+          description: 'Роль пользователя'
+      example:
+        firstName: "Иван"
+        lastName: "Петров"
+        city: "Воронеж"
+        phoneNumber: "+71234567890"
+        email: "ivan.petrov@mail.ru"
+        role: "new"
+
+    UserUpdate:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          description: 'Идентификатор пользователя'
+        firstName:
+          type: string
+          description: 'Имя пользователя'
+        lastName:
+          type: string
+          description: 'Фамилия пользователя'
+        city:
+          type: string
+          description: 'Город'
+        phoneNumber:
+          type: string
+          description: 'Номер телефона пользователя'
+        email:
+          type: string
+          description: 'Email пользователя'
+        role:
+          type: string
+          description: 'Роль пользователя'
+      example:
+        id: "41a99496-b685-475c-b917-5e956032e034"
+        firstName: "Иван"
+        lastName: "Петров"
+        city: "Воронеж"
+        phoneNumber: "+71234567890"
+        email: "ivan.petrov@mail.ru"
+        role: "active"
+
+    User:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          description: 'Идентификатор пользователя'
+        firstName:
+          type: string
+          description: 'Имя пользователя'
+        lastName:
+          type: string
+          description: 'Фамилия пользователя'
+        city:
+          type: string
+          description: 'Город'
+        phoneNumber:
+          type: string
+          description: 'Номер телефона пользователя'
+        email:
+          type: string
+          description: 'Email пользователя'
+        role:
+          type: string
+          description: 'Роль пользователя'
+      example:
+        id: "41a99496-b685-475c-b917-5e956032e034"
+        firstName: "Иван"
+        lastName: "Петров"
+        city: "Воронеж"
+        phoneNumber: "+71234567890"
+        email: "ivan.petrov@mail.ru"
+        role: "active"
+
+    NewDirection:
+      type: object
+      required:
+        - name
+        - description
+        - isActive
+      properties:
+        name:
+          type: string
+          description: 'Имя направления'
+        description:
+          type: string
+          description: 'Описание направления'
+        isActive:
+          type: boolean
+          description: 'Есть ли набор на это направление'
+      example:
+        name: "IT"
+        description: "Information Technology"
+        isActive: true
+
+    Direction:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          description: 'Идентификатор направления'
+        name:
+          type: string
+          description: 'Имя направления'
+        description:
+          type: string
+          description: 'Описание направления'
+        isActive:
+          type: boolean
+          description: 'Есть ли набор на это направление'
+      example:
+        id: "3b73ea48-6537-4520-9f14-314bc30f95e6"
+        name: "IT"
+        description: "Информационные технологии"
+        isActive: true
+    NewApplication:
+      type: object
+      required:
+        - userId
+        - directionId
+        - status
+      properties:
+        userId:
+          type: string
+          description: 'Идентификатор пользователя'
+        directionId:
+          type: string
+          description: 'Идентификатор направления'
+        status:
+          type: string
+          description: 'Статус заявки'
+      example:
+        userId: "41a99496-b685-475c-b917-5e956032e034"
+        directionId: "3b73ea48-6537-4520-9f14-314bc30f95e6"
+        status: "new"
+    ApplicationUpdate:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: 'Идентификатор заявки'
+        userId:
+          type: string
+          description: 'Идентификатор пользователя'
+        directionId:
+          type: string
+          description: 'Идентификатор направления'
+        status:
+          type: string
+          description: 'Статус заявки'
+      example:
+        id: 1
+        userId: "41a99496-b685-475c-b917-5e956032e034"
+        directionId: "3b73ea48-6537-4520-9f14-314bc30f95e6"
+        status: "in progress"
+    Application:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: 'Идентификатор заявки'
+        userId:
+          type: string
+          description: 'Идентификатор пользователя'
+        directionId:
+          type: string
+          description: 'Идентификатор направления'
+        status:
+          type: string
+          description: 'Статус заявки'
+      example:
+        id: 1
+        userId: "41a99496-b685-475c-b917-5e956032e034"
+        directionId: "3b73ea48-6537-4520-9f14-314bc30f95e6"
+        status: "in progress"
+    NewMessageTemplate:
+      type: object
+      required:
+        - messageType
+        - text
+      properties:
+        messageType:
+          type: string
+          description: 'Тип сообщения'
+        text:
+          type: string
+          description: 'Текст сообщения'
+      example:
+        messageType: "welcome"
+        text: "Добро пожаловать!"
+    MessageTemplateUpdate:
+      type: object
+      required:
+        - messageType
+      properties:
+        messageType:
+          type: string
+          description: 'Тип сообщения'
+        text:
+          type: string
+          description: 'Текст сообщения'
+      example:
+        messageType: "welcome"
+        text: "Добро пожаловать в наш сервис!"
+    MessageTemplate:
+      type: object
+      required:
+        - messageType
+      properties:
+        messageType:
+          type: string
+          description: 'Тип сообщения'
+        text:
+          type: string
+          description: 'Текст сообщения'
+      example:
+        messageType: "welcome"
+        text: "Добро пожаловать в наш сервис!"
+    NewButtonActivity:
+      type: object
+      required:
+        - buttonType
+        - activity
+      properties:
+        buttonType:
+          type: string
+          description: 'Тип кнопки'
+        activity:
+          type: string
+          description: 'Активность кнопки'
+      example:
+        buttonType: "start"
+        activity: "start_command"
+    ButtonActivityUpdate:
+      type: object
+      required:
+        - buttonType
+      properties:
+        buttonType:
+          type: string
+          description: 'Тип кнопки'
+        activity:
+          type: string
+          description: 'Активность кнопки'
+      example:
+        buttonType: "start"
+        activity: "start_command_updated"
+    ButtonActivity:
+      type: object
+      required:
+        - buttonType
+      properties:
+        buttonType:
+          type: string
+          description: 'Тип кнопки'
+        activity:
+          type: string
+          description: 'Активность кнопки'
+      example:
+        buttonType: "start"
+        activity: "start_command_updated"
+    NewEvent:
+      type: object
+      required:
+        - eventType
+        - eventData
+      properties:
+        eventType:
+          type: string
+          description: 'Тип события'
+        eventData:
+          type: string
+          description: 'Данные события'
+      example:
+        eventType: "user_created"
+        eventData: "User with id 41a99496-b685-475c-b917-5e956032e034 created"
+    Event:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          description: 'Идентификатор события'
+        eventType:
+          type: string
+          description: 'Тип события'
+        eventData:
+          type: string
+          description: 'Данные события'
+      example:
+        id: 1
+        eventType: "user_created"
+        eventData: "User with id 41a99496-b685-475c-b917-5e956032e034 created"
+    NewAdminUser:
+      type: object
+      required:
+        - username
+        - passwordHash
+        - email
+      properties:
+        username:
+          type: string
+          description: 'Имя пользователя администратора'
+        passwordHash:
+          type: string
+          description: 'Пароль администратора'
+        email:
+          type: string
+          description: 'Email администратора'
+      example:
+        username: "admin"
+        passwordHash: "password123"
+        email: "admin@example.com"
+    AdminUserUpdate:
+      type: object
+      required:
+        - username
+      properties:
+        username:
+          type: string
+          description: 'Имя пользователя администратора'
+        passwordHash:
+          type: string
+          description: 'Пароль администратора'
+        email:
+          type: string
+          description: 'Email администратора'
+      example:
+        username: "admin"
+        passwordHash: "newPassword123"
+        email: "admin@example.com"
+    AdminUser:
+      type: object
+      required:
+        - username
+        - id
+      properties:
+        id:
+          type: integer
+          description: 'Идентификатор администратора'
+        username:
+          type: string
+          description: 'Имя пользователя администратора'
+        passwordHash:
+          type: string
+          description: 'Пароль администратора'
+        email:
+          type: string
+          description: 'Email администратора'
+        role:
+          type: string
+          description: 'Роль администратора'
+      example:
+        id: 1
+        username: "admin"
+        passwordHash: "newPassword123"
+        email: "admin@example.com"
+        role: "admin"

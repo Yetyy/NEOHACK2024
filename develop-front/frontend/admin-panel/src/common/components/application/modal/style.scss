@@ -1,0 +1,58 @@
+@use "@/common/styles/mixin.scss" as *;
+@use "@/common/styles/styleConstants" as *;
+
+.user {
+    min-width: 400px;
+
+    &__title{
+        color: $color-dim-black;
+    }
+
+    &__list {
+        @include clampText($text-m-medium, $text-medium);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-block: 20px;
+    }
+
+    &__list-item {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+    }
+
+    &__item-name {
+        font-weight: 600;
+    }
+
+    &__button {
+        @include styledbutton;
+        &{
+            padding-block: 9px;
+        }
+        &_delete {
+            background-color: $color-red-delete;
+        }
+    }
+}
+
+@media (max-width: $mobile){
+    .user{
+        width: 90vw;
+
+        &__list-item{
+            display: block;
+        }
+
+        &__button {
+            &{
+                padding-inline: 15px;
+            }
+        }
+
+        &__select{
+            max-width: 50vw;
+        }
+    }
+}

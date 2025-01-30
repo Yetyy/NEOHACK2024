@@ -1,0 +1,50 @@
+@use "@/common/styles/mixin.scss" as *;
+@use "@/common/styles/styleConstants" as *;
+
+.header {
+    @include defaultWrapper;
+    padding-block: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &__list {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        @include clampText($text-m-main, $text-main);
+        font-weight: 700;
+    }
+
+    &__link {
+        @include clampText($text-m-main, $text-main);
+        transition: $transition-fast;
+        color: $color-dark-black;
+
+        @media (hover: hover) {
+            &:hover {
+                color: $color-hover-link;
+            }
+        }
+
+        &.active {
+            color: $color-hover-link;
+        }
+    }
+}
+
+@media (max-width: $mobile){
+    .header {
+        &__logo-link{
+            display: none;
+        }
+
+        &__nav{
+            width: 100%;
+        }
+
+        &__list {
+            justify-content: center;
+        }
+    }
+}

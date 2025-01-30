@@ -1,0 +1,60 @@
+@use "@/common/styles/mixin.scss" as *;
+@use "@/common/styles/styleConstants" as *;
+
+.sidebar {
+    &__settings {
+        @include defaultBox;
+        position: sticky;
+        top: 15px;
+        width: 100%;
+        height: fit-content;
+    }
+    
+    &__settings-title{
+        @include clampText($text-m-large, $text-large);
+        margin-bottom: 10px;
+    }
+
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &__settings-button{
+        @include clampText($text-m-main, $text-main);
+        font-weight: 700;
+        line-height: 18px;
+        letter-spacing: 0.02em;
+        border-radius: $border-radius-s;
+        color: $color-total-white;
+        background-color: $color-bright-blue;
+        padding: 11px 65px;
+        max-width: 300px;
+        width: 100%;
+        margin: 20px auto 0px;
+
+        @media(hover: hover) {
+            &:hover {
+                background-color: $color-hover-blue;
+            }
+        }
+    
+        &:not(:disabled):active {
+            scale: 0.98; 
+        }
+    
+        &:disabled{
+            background-color: $color-hover-blue;
+        }
+    }
+}
+
+@media (max-width: $tablet) {
+    .sidebar {
+        &__settings {
+            position: relative;
+            margin-bottom: 30px;
+        }
+    }
+}

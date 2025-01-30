@@ -1,0 +1,59 @@
+@use "@/common/styles/styleConstants" as *;
+
+@mixin defaultWrapper {
+    max-width: 1324px;
+    width: 100%;
+    margin: 0 auto;
+    padding-inline: 12px;
+}
+
+@mixin clampText($min, $max) {
+    font-size: clamp(#{$min}px,
+        #{calc($max / 1024) * 100}vw,
+        #{$max}px);
+}
+
+@mixin defaultBox {
+    background-color: $color-total-white;
+    border-radius: $border-radius-m;
+    box-shadow: $shadow-def;
+    padding: 20px;
+}
+
+@mixin flexCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flexBetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin styledbutton {
+    @include clampText($text-m-main, $text-main);
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0.02em;
+    border-radius: $border-radius-s;
+    color: $color-total-white;
+    background-color: $color-bright-blue;
+    padding: 11px 32px;
+    width: fit-content;
+
+    @media(hover: hover) {
+        &:hover {
+            background-color: $color-hover-blue;
+        }
+    }
+
+    &:not(:disabled):active {
+        scale: 0.98;
+    }
+
+    &:disabled {
+        background-color: $color-hover-blue;
+    }
+}

@@ -1,0 +1,32 @@
+@use "@/common/styles/mixin.scss" as *;
+@use "@/common/styles/styleConstants" as *;
+
+.card-chart {
+    @include defaultBox;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    &__title{
+        @include clampText($text-m-large, $text-large);
+    }
+
+    &__wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: fit-content;
+    }
+
+    &__total{
+        @include clampText($text-m-large, $text-large);
+        width: fit-content;
+    }
+}
+
+@media (max-width: $mobile) {
+    .card-chart {
+        width: 100%;
+    }
+}

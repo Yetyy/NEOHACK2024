@@ -1,0 +1,38 @@
+stages:
+  - build
+  - deploy-on-dev
+
+docker-build:
+  stage: build
+  variables:
+    GIT_USERNAME: ${CI_REGISTRY_USER}
+    GIT_PASSWORD: ${CI_REGISTRY_PASSWORD}
+    KUBECONFIG: ${KUBECONFIG_BASE64}
+  only:
+    - master
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  tags:
+    - runner
+    - build
+    - k8s
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/develop"
+      --dockerfile "${CI_PROJECT_DIR}/develop/apiService/Dockerfile"
+      --destination "git.codenrock.com:5050/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA"
+
+deploy-on-dev:
+  stage: deploy-on-dev
+  image:
+    name: alpine/helm:3.2.1
+  tags:
+    - microk8s1
+  script:
+    - echo "$KUBECONFIG_BASE64" | base64 -d > kube.config
+    - export KUBECONFIG=$(pwd)/kube.config
+    - helm upgrade helm-test-app1 ./helm-test-app1 --install
+      --namespace cnrprod1737640822-team-83234 
+      --set image.repository="git.codenrock.com:5050/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME" 
+      --set image.tag="$CI_COMMIT_SHORT_SHA"

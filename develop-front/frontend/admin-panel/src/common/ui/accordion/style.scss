@@ -1,0 +1,54 @@
+@use "@/common/styles/mixin.scss" as *;
+@use "@/common/styles/styleConstants" as *;
+
+.accordion {
+    padding-block: 13px;
+
+    &__details {
+        list-style: none;
+    }
+
+    &__summary {
+        @include clampText($text-m-main, $text-main);
+        gap: 20px;
+        font-weight: 500;
+        color: $color-dim-black;
+    }
+
+    &__details>&__summary {
+        list-style: none;
+        @include flexBetween;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &__details[open] &__icon {
+        transform: rotate(0deg);
+    }
+
+    &__icon {
+        transition: $transition-fast;
+        transform: rotate(180deg);
+        min-width: 24px;
+    }
+
+    &__content {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: $transition-fast;
+
+        &-body {
+            @include clampText($text-m-main, $text-main);
+            font-weight: 400;
+            color: $color-details;
+            overflow: hidden;
+        }
+    }
+
+    &__details[open]+&__content {
+        grid-template-rows: 1fr;
+        margin-top: 10px;
+    }
+}
